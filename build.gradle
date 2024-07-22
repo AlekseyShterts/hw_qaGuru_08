@@ -1,0 +1,57 @@
+plugins {
+    id 'java'
+}
+
+group = 'ru.ashterts'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    testImplementation (
+            'org.junit.jupiter:junit-jupiter:5.10.0',
+            'com.codeborne:selenide:7.2.1',
+            "com.github.javafaker:javafaker:1.0.2",
+            'org.slf4j:slf4j-simple:2.0.7'
+    )
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.register('smoke', Test) {
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        exceptionFormat "full"
+    }
+    useJUnitPlatform {
+        includeTags("SMOKE")
+    }
+}
+
+tasks.register('regress', Test) {
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        exceptionFormat "full"
+    }
+    useJUnitPlatform {
+        includeTags("REGRESS")
+    }
+}
+
+tasks.register('web', Test) {
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        exceptionFormat "full"
+    }
+    useJUnitPlatform {
+        includeTags("WEB")
+    }
+}
